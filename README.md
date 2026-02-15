@@ -4,6 +4,8 @@ This is an implementation of a graph convolutional neural network (CNN) to predi
 
 I then defined a custom collate function for batch construction, since each crystal has a different number of atoms. This collation method can be modified to explore possible improvements in prediction accuracy, as at the time of writing this code, we have not explored other collation methods due to time constraints. Please see "mynewCollate" for details.
 
+We perform message passing, in which each atom updates its own embedding using its neighbors' embeddings. This is the "convolution". We experiment with 10 convolution layers, so at layer 1, atoms learn from immediate neighbors, at layer 2, atoms learn from neighbors of neighbors and so on: 
+
 $$
 \mathbf{h}_i^{(k+1)} =
 \mathrm{MLP}\left(
@@ -13,12 +15,9 @@ $$
 \right)
 $$
 
+After obtaining updated embeddings for each atom, we use mean pooling to obtain one fixed-length vector per crystal. We then concatenate the sputter parameters, so our neural network uses both intrinsic crystal structure and thin film fabrication parameters, which we pass through 5 fully connected MLP layers to regressively predict $d_{33}$.
 
 data/id_prop.csv: This file maps CIF filename to target value, $d_{33}$
 
 Example in command line:
   python train.py data/ --epochs 60 --batch-size 20 --lr 0.01 --val-ratio 0.2 --test-ratio 0.2
-
-CIFData scans data/cif/*.cif, reads id_prop.csv, matches the CIF file to target $d_{33}, then builds an atom graph from the CIF file, returning atom features, neighbor features, adjacency indices, sputter features, crystal index map and target value.
-
-
