@@ -21,3 +21,5 @@ data/id_prop.csv: This file maps CIF filename to target value, $d_{33}$
 
 Example in command line:
   python train.py data/ --epochs 60 --batch-size 20 --lr 0.01 --val-ratio 0.2 --test-ratio 0.2
+
+Current data availability is limited and more training data is required for a stronger evaluation.
