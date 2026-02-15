@@ -4,8 +4,14 @@ This is an implementation of a graph convolutional neural network (CNN) to predi
 
 I then defined a custom collate function for batch construction, since each crystal has a different number of atoms. This collation method can be modified to explore possible improvements in prediction accuracy, as at the time of writing this code, we have not explored other collation methods due to time constraints. Please see "mynewCollate" for details.
 
-$ \mathbf{h}_i^{(k+1)} = \mathrm{MLP}\left(\mathbf{h}_i^{(k)} + \sum_{j \in \mathcal{N}(i)} \phi\!\left(\mathbf{h}_i^{(k)}, \mathbf{h}_j^{(k)}, \mathbf{e}_{ij}\right)\right)$
-
+$$
+\mathbf{h}_i^{(k+1)} =
+\mathrm{MLP}\left(
+\mathbf{h}_i^{(k)} +
+\sum_{j \in \mathcal{N}(i)}
+\phi\!\left(\mathbf{h}_i^{(k)}, \mathbf{h}_j^{(k)}, \mathbf{e}_{ij}\right)
+\right)
+$$
 
 
 data/id_prop.csv: This file maps CIF filename to target value, $d_{33}$
